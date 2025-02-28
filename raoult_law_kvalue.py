@@ -30,12 +30,15 @@ def raoult_law_kvalue( T, P, a, *gamma):
     # Modified by Tyler R. Josephson
     
     ns,nc = a.shape
-    # makes np array of zeros
+    # makes np array of zeros 
     K = np.zeros(ns) 
     Ps = antoine(a, T)  
     K = Ps/P
     if gamma:
         K *= gamma
-
     return K
+    Methane= [4.35576, 1175.58, -2.071]
+Water= [8.07, 1730.63,233.426]
+np.array([Methane, Water])
+#Z=P*v/(R*T*n)
 
