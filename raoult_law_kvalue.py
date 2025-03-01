@@ -66,7 +66,7 @@ for i, x in enumerate(x_methane):
 #Z=P*v/(R*T*n)
 plt.plot(x_methane, dew_temperatures, label="Dew Point", color="blue")
 plt.plot(x_methane, bubble_temperatures, label="Bubble Point", color="red")
-
+plt.fill_between(x_methane, bubble_temperatures, dew_temperatures, color='yellow', alpha=0.3, label="Two-Phase Region")
 plt.xlabel("Mole Fraction of Methane")
 plt.ylabel("Temperature (K)")
 plt.title("Dew and Bubble Point Temperatures")
