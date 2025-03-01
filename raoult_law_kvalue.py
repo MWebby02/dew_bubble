@@ -1,5 +1,6 @@
 from antoine import antoine
 import numpy as np
+import matplotlib.pyplot as plt
 
 def raoult_law_kvalue( T, P, a, *gamma):
     # Calculates the equilibrium coefficient from Raoult's law
@@ -37,8 +38,39 @@ def raoult_law_kvalue( T, P, a, *gamma):
     if gamma:
         K *= gamma
     return K
-    Methane= [4.35576, 1175.58, -2.071]
+Methane= [4.35576, 1175.58, -2.071]
 Water= [8.07, 1730.63,233.426]
-np.array([Methane, Water])
+T= 350 #K
+P=1 #bar
+
+a= np.array([Methane, Water])
+for i, x in enumerate(x_methane):
+    # Bubble point (start of condensation)
+    T_bubble = T_initial  # initial guess for bubble point temperature
+    for _ in range(100):  # Iterative solution
+        K = raoult_law_kvalue(T_bubble, P, a)
+        y = (K[0] * x) / (1 + x * (K[0] - 1))
+        T_bubble -= 0.1 * (y - x) 
+
+    bubble_temperatures[i] = T_bubble
+
+    # Dew point (start of evaporation)
+    T_dew = T_initial  # initial guess for dew point temperature
+    for _ in range(100):  # Iterative solution
+        K = raoult_law_kvalue(T_dew, P, a)
+        y = (K[0] * x) / (1 + x * (K[0] - 1))
+        T_dew += 0.1 * (y - x)
+
+    dew_temperatures[i] = T_dew
+    
 #Z=P*v/(R*T*n)
+plt.plot(x_methane, dew_temperatures, label="Dew Point", color="blue")
+plt.plot(x_methane, bubble_temperatures, label="Bubble Point", color="red")
+
+plt.xlabel("Mole Fraction of Methane")
+plt.ylabel("Temperature (K)")
+plt.title("Dew and Bubble Point Temperatures")
+plt.legend()
+plt.grid(True)
+plt.show()
 
